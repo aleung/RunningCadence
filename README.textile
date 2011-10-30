@@ -1,0 +1,24 @@
+h2. What's it
+
+For a runner, increasing cadence is an important skill that improves your
+running form, improves running efficiency and reduces running injuries.
+
+RunningCadence helps you achieve the target cadence in your running workout. 
+It is an application running on Android device, detects your running cadence,
+plays tone when you're running too slow or too fast then the target cadence.
+
+Note: It isn't a walk pedometer. Cadence is counted only when you're running.
+
+h2. Changelog
+
+11Q4.1  (1)  - 2011.10.31  First version.
++ Count running cadence;
++ Report current cadence by TTS;
+
+h2. Installation
+
+* Search "RunningCadence" in Android Market
+
+h2. License
+
+"GNU General Public License, version 3":http://www.gnu.org/licenses/gpl.html
