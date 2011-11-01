@@ -12,7 +12,7 @@ public class VoiceFeedback {
 	 * Voice feedback interval, from last state to current state.
 	 * feedbackInterval[lastFeedbackState.ordinal()][currentState.ordinal()]
 	 */
-	private final static int feedbackInterval[][] = { { 60, 10, 10 }, { 5, 180, 30 }, { 5, 30, 30 } };
+	private final static int feedbackInterval[][] = { { 60, 10, 10 }, { 5, 180, 5 }, { 5, 10, 30 } };
 
 	private final static String TAG = "VoiceFeedback";
 
