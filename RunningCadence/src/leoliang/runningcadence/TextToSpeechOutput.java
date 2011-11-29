@@ -17,7 +17,7 @@ public class TextToSpeechOutput implements TextToSpeech.OnInitListener {
 		tts = new TextToSpeech(context, this);
 	}
 
-	public void shutdownTTS() {
+	public void shutdown() {
 		Log.i(TAG, "Shutting Down TextToSpeech...");
 		mSpeakingEngineAvailable = false;
 		tts.shutdown();

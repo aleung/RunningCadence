@@ -8,6 +8,10 @@ _Note: It isn't a walk pedometer. Cadence is counted only when you're running._
 
 h2. Changelog
 
+11Q4.2  (1)  - 2011.11.30
++ Set target cadence;
++ Cadence detection runs as background service, should not be easily killed by system;
+
 11Q4.1  (1)  - 2011.10.31  First version.
 + Count running cadence;
 + Report current cadence by TTS;
@@ -20,6 +24,10 @@ h2. Installation
 h2. Feedback
 
 Bug report or feature request, please submit to "issues list":http://code.google.com/p/running-cadence/issues/list . Your feedback can be either in English or in Chinese.
+
+h2. Build
+
+Requires library "android-wheel":http://code.google.com/p/android-wheel/
 
 h2. Contribute
 

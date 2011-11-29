@@ -16,12 +16,11 @@ public class VoiceFeedback {
 
 	private final static String TAG = "VoiceFeedback";
 
-	// TODO: user setting, read from preference
-	private final int targetCadence = 90;
+	private int targetCadence = 180;
 
 	private final TextToSpeechOutput ttsOutput;
 	private long lastFeedbackTimestamp;
-	private Integer currentCadence;
+	private int currentCadence;
 	private RunningState lastFeedbackState;
 
 	public VoiceFeedback(TextToSpeechOutput tts) {
@@ -29,16 +28,20 @@ public class VoiceFeedback {
 		reset();
 	}
 
+	public void setTargetCadence(int targetCadence) {
+		this.targetCadence = targetCadence;
+	}
+
 	public void reset() {
 		lastFeedbackState = RunningState.NOT_RUNNING;
 		lastFeedbackTimestamp = System.currentTimeMillis();
 	}
 
-	public void onUpdate(Integer cadence) {
+	public void onUpdate(int cadence) {
 		currentCadence = cadence;
 
 		RunningState currentState;
-		if (cadence == null) {
+		if (cadence <= 0) {
 			currentState = RunningState.NOT_RUNNING;
 		} else if (Math.abs(cadence - targetCadence) <= 2) {
 			currentState = RunningState.RUNNING_ON_TARGET_CADENCE;

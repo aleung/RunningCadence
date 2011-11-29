@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RunningCadence</string>
-    <string name="cycles_per_minute">cycles per minute</string>
+    <string name="steps_per_minute">steps per minute</string>
     <string name="current">current</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
-        
+    <string name="service_running">Measuring your steps</string>
+    <string name="target_cadence">target cadence</string>
 </resources>

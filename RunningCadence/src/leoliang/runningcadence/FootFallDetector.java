@@ -39,8 +39,8 @@ public class FootFallDetector implements SensorEventListener {
 	 * Cutoff frequency (fc) in low-pass filter for earth gravity detection
 	 */
 	private static final float FC_EARTH_GRAVITY_DETECTION = 0.25F;
-	private static final int ACCELERATION_VALUE_KEEP_SECONDS = 6;
-	private static final int NUMBER_OF_FOOT_FALLS = 4;
+	private static final int ACCELERATION_VALUE_KEEP_SECONDS = 10;
+	private static final int NUMBER_OF_FOOT_FALLS = 6;
 	private static final long SECOND_TO_NANOSECOND = (long) 1e9;
 
 	private final Context context;
@@ -103,10 +103,10 @@ public class FootFallDetector implements SensorEventListener {
 	 * 
 	 * @return null if data isn't available
 	 */
-	public synchronized Integer getCurrentCadence() {
+	public synchronized int getCurrentCadence() {
 		if (!active) {
 			Log.i(TAG, "Detector is inactive, can not get cadence.");
-			return null;
+			return 0;
 		}
 		try {
 			int axisIndex = findVerticalAxis();
@@ -136,16 +136,15 @@ public class FootFallDetector implements SensorEventListener {
 			return calculateCadenceByFootFallTimestamp(footFallTimestamps);
 		} catch (NoSuchElementException e) {
 			Log.d(TAG, "No sensor event", e);
-			return null;
+			return 0;
 		} catch (IndexOutOfBoundsException e) {
 			Log.d(TAG, "No enough sensor events", e);
-			return null;
+			return 0;
 		}
 	}
 
 	/**
-	 * Calculate cadence by timestamp of last three foot falls, return the
-	 * middle value.
+	 * Calculate cadence by timestamp of last foot falls, return the average of middle values.
 	 * 
 	 * @param footFallTimestamps
 	 * @return strides per minute
@@ -156,7 +155,13 @@ public class FootFallDetector implements SensorEventListener {
 			footFallIntervale[i] = footFallTimestamps[i] - footFallTimestamps[i + 1];
 		}
 		Arrays.sort(footFallIntervale);
-		return (int) (60 * SECOND_TO_NANOSECOND / 2 / footFallIntervale[1]);
+		long sum = 0;
+		for (int i = 1; i < NUMBER_OF_FOOT_FALLS - 2; i++) {
+			sum += footFallIntervale[i];
+		}
+		long average = sum / NUMBER_OF_FOOT_FALLS - 3;
+		return (int) (60 * SECOND_TO_NANOSECOND / 2 / average);
+
 	}
 
 	/**
