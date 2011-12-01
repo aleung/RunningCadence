@@ -111,7 +111,7 @@ public class FootFallDetector implements SensorEventListener {
 		try {
 			int axisIndex = findVerticalAxis();
 			float g = values.getFirst().averagedValues[axisIndex];
-			float threshold = Math.abs(g / 3);
+			float threshold = Math.abs(g / 2);
 			long[] footFallTimestamps = new long[NUMBER_OF_FOOT_FALLS];
 			int numberOfFootFalls = 0;
 			boolean inThreshold = false;
