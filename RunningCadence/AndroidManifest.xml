@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="leoliang.runningcadence"
     android:versionCode="1"
-    android:versionName="11Q4.2" >
+    android:versionName="11Q4.3-dev" >
 
     <uses-sdk android:minSdkVersion="7" />
 
@@ -14,7 +14,6 @@
         <activity android:name=".SettingActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,6 +23,7 @@
             android:name=".RunningCadenceActivity" />
 
         <service android:name=".BackgroundService" />
+
     </application>
 
 </manifest>

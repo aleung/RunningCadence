@@ -92,14 +92,12 @@ public class FootFallDetector implements SensorEventListener {
 					prevValue.lowPassFilteredValues, prevValue.timestamp, FC_FOOT_FALL_DETECTION);
 		}
 		values.addFirst(acceleration);
-		Log.v(TAG, acceleration.toString());
 
 		removeValuesOlderThan(event.timestamp - ACCELERATION_VALUE_KEEP_SECONDS * SECOND_TO_NANOSECOND);
 	}
 
 	/**
-	 * Get current cadence, in strides per minute. (One stride: both a left and
-	 * right foot fall revolution)
+	 * Get current cadence, in steps per minute.
 	 * 
 	 * @return null if data isn't available
 	 */
@@ -135,10 +133,10 @@ public class FootFallDetector implements SensorEventListener {
 			}
 			return calculateCadenceByFootFallTimestamp(footFallTimestamps);
 		} catch (NoSuchElementException e) {
-			Log.d(TAG, "No sensor event", e);
+			Log.d(TAG, "No sensor event");
 			return 0;
 		} catch (IndexOutOfBoundsException e) {
-			Log.d(TAG, "No enough sensor events", e);
+			Log.d(TAG, "No enough sensor events");
 			return 0;
 		}
 	}
@@ -189,7 +187,6 @@ public class FootFallDetector implements SensorEventListener {
 			if (values.getLast().timestamp < timestamp) {
 				values.removeLast();
 			} else {
-				Log.v(TAG, "Removed old acceleration values, left items:" + values.size());
 				return;
 			}
 		}
@@ -198,12 +195,10 @@ public class FootFallDetector implements SensorEventListener {
 	private void lowPassFilter(float[] result, float[] currentValue, long currentTime, float[] prevValue,
 			long prevTime, float cutoffFequency) {
 		long deltaTime = currentTime - prevTime;
-		Log.v(TAG, "delta time:" + deltaTime);
 		float alpha = (float) (cutoffFequency * 3.14 * 2 * deltaTime / SECOND_TO_NANOSECOND);
 		if (alpha > 1) {
 			alpha = 1;
 		}
-		Log.v(TAG, "alpha:" + alpha);
 		for (int i = 0; i < 3; i++) {
 			result[i] = prevValue[i] + alpha * (currentValue[i] - prevValue[i]);
 		}

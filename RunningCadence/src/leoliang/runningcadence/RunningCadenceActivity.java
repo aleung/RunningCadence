@@ -64,7 +64,6 @@ public class RunningCadenceActivity extends Activity {
 			public void onClick(View v) {
 				mCurrentCadence.setText(DISPLAY_NO_DATA);
 				stopService(new Intent(RunningCadenceActivity.this, BackgroundService.class));
-//				startActivity(new Intent(RunningCadenceActivity.this, SettingActivity.class));
 				finish();
 			}
 		});
@@ -87,6 +86,6 @@ public class RunningCadenceActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		// do nothing
+		// do nothing, disable returning to previous activity
 	}
 }

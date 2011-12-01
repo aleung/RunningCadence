@@ -8,6 +8,10 @@ _Note: It isn't a walk pedometer. Cadence is counted only when you're running._
 
 h2. Changelog
 
+11Q4.3  (1)  - ?
++ Improve voice feedback, less feedback when status jumping between on target and out of target cadence.
++ Try to fix the issue of application being killed after running in background for 30 minutes;
+
 11Q4.2  (1)  - 2011.11.30
 + Set target cadence;
 + Cadence detection runs as background service, should not be easily killed by system;
