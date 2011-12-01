@@ -1,7 +1,6 @@
 package leoliang.runningcadence;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -23,7 +22,7 @@ public class BackgroundService extends Service {
 		}
 	}
 
-	private static final String LOG_TAG = "RunningCadence.BackgroundService";
+	private static final String LOG_TAG = "BackgroundService";
 
 	// Unique Identification Number for the Notification.
 	// We use it on Notification start, and to cancel it.
@@ -32,7 +31,6 @@ public class BackgroundService extends Service {
 	private TextToSpeechOutput ttsOutput;
 	private VoiceFeedback voiceFeedback;
 	private FootFallDetector footFallDetector;
-	private NotificationManager notificationManger;
 	private Handler clientHandler;
 
 	private final IBinder mBinder = new LocalBinder();
@@ -46,6 +44,7 @@ public class BackgroundService extends Service {
 			int cadence = footFallDetector.getCurrentCadence();
 			voiceFeedback.onUpdate(cadence);
 			if (clientHandler != null) {
+				Log.v(LOG_TAG, "Update cadence display.");
 				Message message = Message.obtain();
 				message.arg1 = cadence;
 				clientHandler.sendMessage(message);
@@ -64,14 +63,13 @@ public class BackgroundService extends Service {
 	public boolean onUnbind(Intent intent) {
 		Log.v(LOG_TAG, "onUnbind'd");
 		clientHandler = null;
-		return false;
+		return true;
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		Log.v(LOG_TAG, "onDestroy");
-		notificationManger.cancel(NOTIFICATION);
 		serviceHandler.removeCallbacks(mUpdateCadenceTask);
 		footFallDetector.stop();
 		ttsOutput.shutdown();
@@ -81,7 +79,6 @@ public class BackgroundService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		Log.v(LOG_TAG, "onCreate");
-		notificationManger = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		int targetCadence = ((Application) getApplication()).getConfiguration().getTargetCadence();
 		ttsOutput = new TextToSpeechOutput(this);
 		voiceFeedback = new VoiceFeedback(ttsOutput);
@@ -119,6 +116,6 @@ public class BackgroundService extends Service {
 		notification.setLatestEventInfo(this, getText(R.string.app_name), getText(R.string.service_running),
 				contentIntent);
 
-		notificationManger.notify(NOTIFICATION, notification);
+		startForeground(NOTIFICATION, notification);
 	}
 }
