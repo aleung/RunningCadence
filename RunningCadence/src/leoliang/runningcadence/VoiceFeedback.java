@@ -22,6 +22,7 @@ public class VoiceFeedback {
 	private final TextToSpeechOutput ttsOutput;
 	private long lastFeedbackTimestamp;
 	private int currentCadence;
+	private int averageCadence;
 	private RunningState lastFeedbackState;
 
 	public VoiceFeedback(TextToSpeechOutput tts) {
@@ -44,7 +45,9 @@ public class VoiceFeedback {
 		RunningState currentState;
 		if (cadence <= 0) {
 			currentState = RunningState.NOT_RUNNING;
+			averageCadence = 0;
 		} else {
+			updateAverageCadence(cadence);
 			int allowedDeviation = (int) (targetCadence * 0.025);
 			int slowThresold = 0;
 			int fastThresold = 0;
@@ -64,12 +67,24 @@ public class VoiceFeedback {
 				break;
 			}
 
-			if (currentCadence > fastThresold) {
-				currentState = RunningState.RUNNING_FASTER_THAN_TARGET_CADENCE;
-			} else if (currentCadence < slowThresold) {
-				currentState = RunningState.RUNNING_SLOWER_THAN_TARGET_CADENCE;
+			if (averageCadence > fastThresold) {
+				if (currentCadence > fastThresold) {
+					currentState = RunningState.RUNNING_FASTER_THAN_TARGET_CADENCE;
+				} else {
+					return;
+				}
+			} else if (averageCadence < slowThresold) {
+				if (currentCadence < slowThresold) {
+					currentState = RunningState.RUNNING_SLOWER_THAN_TARGET_CADENCE;
+				} else {
+					return;
+				}
 			} else {
-				currentState = RunningState.RUNNING_ON_TARGET_CADENCE;
+				if (currentCadence <= fastThresold && currentCadence >= slowThresold) {
+					currentState = RunningState.RUNNING_ON_TARGET_CADENCE;
+				} else {
+					return;
+				}
 			}
 		}
 
@@ -77,6 +92,19 @@ public class VoiceFeedback {
 		Log.v(TAG, String.format("From %s to %s, feedback interval:%d", lastFeedbackState, currentState, interval));
 		if (System.currentTimeMillis() - lastFeedbackTimestamp > interval * 1000) {
 			playFeedback(currentState);
+		}
+	}
+
+	/**
+	 * Average cadence by last 20 samples.
+	 * 
+	 * @param cadence - current cadence
+	 */
+	private void updateAverageCadence(int cadence) {
+		if (averageCadence == 0) {
+			averageCadence = cadence;
+		} else {
+			averageCadence = (averageCadence * 19 + cadence) / 20;
 		}
 	}
 
