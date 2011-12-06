@@ -1,19 +1,11 @@
 package leoliang.runningcadence;
 
-import android.util.Log;
 
 public class VoiceFeedback {
 
 	private enum RunningState {
 		NOT_RUNNING, RUNNING_ON_TARGET_CADENCE, RUNNING_SLOWER_THAN_TARGET_CADENCE, RUNNING_FASTER_THAN_TARGET_CADENCE
 	}
-
-	/**
-	 * Voice feedback interval, from last state to current state.
-	 * feedbackInterval[lastFeedbackState.ordinal()][currentState.ordinal()]
-	 */
-	private final static int feedbackInterval[][] = { { 60, 10, 10, 10 }, { 5, 180, 5, 5 }, { 5, 10, 30, 30 },
-			{ 5, 10, 30, 30 } };
 
 	private final static String TAG = "VoiceFeedback";
 
@@ -43,64 +35,68 @@ public class VoiceFeedback {
 		currentCadence = cadence;
 
 		RunningState currentState;
-		if (cadence <= 0) {
+		int allowedDeviation = (int) (targetCadence * 0.025);
+		if (currentCadence <= 0) {
 			currentState = RunningState.NOT_RUNNING;
-			averageCadence = 0;
+		} else if (currentCadence > targetCadence + allowedDeviation) {
+			currentState = RunningState.RUNNING_FASTER_THAN_TARGET_CADENCE;
+		} else if (currentCadence < targetCadence - allowedDeviation) {
+			currentState = RunningState.RUNNING_SLOWER_THAN_TARGET_CADENCE;
 		} else {
-			updateAverageCadence(cadence);
-			int allowedDeviation = (int) (targetCadence * 0.025);
-			int slowThresold = 0;
-			int fastThresold = 0;
-			switch (lastFeedbackState) {
-			case NOT_RUNNING:
-			case RUNNING_ON_TARGET_CADENCE:
-				slowThresold = targetCadence - allowedDeviation;
-				fastThresold = targetCadence + allowedDeviation;
-				break;
-			case RUNNING_FASTER_THAN_TARGET_CADENCE:
-				slowThresold = targetCadence - allowedDeviation;
-				fastThresold = targetCadence;
-				break;
-			case RUNNING_SLOWER_THAN_TARGET_CADENCE:
-				slowThresold = targetCadence;
-				fastThresold = targetCadence + allowedDeviation;
-				break;
-			}
-
-			if (averageCadence > fastThresold) {
-				if (currentCadence > fastThresold) {
-					currentState = RunningState.RUNNING_FASTER_THAN_TARGET_CADENCE;
-				} else {
-					return;
-				}
-			} else if (averageCadence < slowThresold) {
-				if (currentCadence < slowThresold) {
-					currentState = RunningState.RUNNING_SLOWER_THAN_TARGET_CADENCE;
-				} else {
-					return;
-				}
-			} else {
-				if (currentCadence <= fastThresold && currentCadence >= slowThresold) {
-					currentState = RunningState.RUNNING_ON_TARGET_CADENCE;
-				} else {
-					return;
-				}
-			}
+			currentState = RunningState.RUNNING_ON_TARGET_CADENCE;
 		}
 
-		int interval = feedbackInterval[lastFeedbackState.ordinal()][currentState.ordinal()];
-		Log.v(TAG, String.format("From %s to %s, feedback interval:%d", lastFeedbackState, currentState, interval));
-		if (System.currentTimeMillis() - lastFeedbackTimestamp > interval * 1000) {
+		updateAverageCadence(cadence);
+		int feedbackInterval = calculateFeedbackInterval(averageCadence, targetCadence, currentState, lastFeedbackState);
+		if (System.currentTimeMillis() - lastFeedbackTimestamp > feedbackInterval * 1000) {
 			playFeedback(currentState);
+			lastFeedbackState = currentState;
 		}
 	}
 
+	private int calculateFeedbackInterval(int averageCadence, int targetCadence, RunningState currentState,
+			RunningState lastFeedbackState) {
+		if (currentState == RunningState.NOT_RUNNING) {
+			if (lastFeedbackState == RunningState.NOT_RUNNING) {
+				return 60;
+			} else {
+				// stop running just now
+				return 5;
+			}
+		}
+
+		if (lastFeedbackState == RunningState.NOT_RUNNING) {
+			// just start running
+			return 30;
+		}
+
+		int bias = Math.abs(averageCadence - targetCadence) * 100 / targetCadence;
+		if (bias < 5) {
+			if (currentState == RunningState.RUNNING_ON_TARGET_CADENCE
+					&& lastFeedbackState != RunningState.RUNNING_ON_TARGET_CADENCE) {
+				// give a timely feedback when reaching target cadence
+				return 10;
+			}
+			return 180;
+		} else if (bias < 10) {
+			return 60;
+		} else {
+			return 30;
+		}
+
+	}
+
 	/**
-	 * Average cadence by last 20 samples.
+	 * Average cadence by last 20 samples. If it isn't running, reset average to zero.
 	 * 
 	 * @param cadence - current cadence
 	 */
 	private void updateAverageCadence(int cadence) {
+		if (cadence == 0) {
+			averageCadence = 0;
+			return;
+		}
+
 		if (averageCadence == 0) {
 			averageCadence = cadence;
 		} else {
