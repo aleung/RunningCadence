@@ -1,5 +1,7 @@
 package leoliang.runningcadence;
 
+import android.content.Context;
+
 
 public class VoiceFeedback {
 
@@ -12,13 +14,15 @@ public class VoiceFeedback {
 	private int targetCadence = 180;
 
 	private final TextToSpeechOutput ttsOutput;
+	private final Context context;
 	private long lastFeedbackTimestamp;
 	private int currentCadence;
 	private int averageCadence;
 	private RunningState lastFeedbackState;
 
-	public VoiceFeedback(TextToSpeechOutput tts) {
+	public VoiceFeedback(TextToSpeechOutput tts, Context context) {
 		ttsOutput = tts;
+		this.context = context;
 		reset();
 	}
 
@@ -67,7 +71,7 @@ public class VoiceFeedback {
 
 		if (lastFeedbackState == RunningState.NOT_RUNNING) {
 			// just start running
-			return 30;
+			return 10;
 		}
 
 		int bias = Math.abs(averageCadence - targetCadence) * 100 / targetCadence;
@@ -107,18 +111,18 @@ public class VoiceFeedback {
 	private void playFeedback(RunningState currentState) {
 		switch (currentState) {
 		case NOT_RUNNING:
-			ttsOutput.say("Seems you're not running now. Have you finished your workout?");
+			ttsOutput.say(context.getString(R.string.voice_not_running));
 			break;
 		case RUNNING_ON_TARGET_CADENCE:
-			ttsOutput.say("Good job! You're running on target cadence. Keep going.");
+			ttsOutput.say(context.getString(R.string.voice_on_target_cadence));
 			break;
 		case RUNNING_FASTER_THAN_TARGET_CADENCE:
-			ttsOutput.say(String.format("Current cadence is %d cycles per minute.", currentCadence));
-			ttsOutput.say("Slow down.");
+			ttsOutput.say(String.format(context.getString(R.string.voice_current_cadence, currentCadence)));
+			ttsOutput.say(context.getString(R.string.voice_slow_down));
 			break;
 		case RUNNING_SLOWER_THAN_TARGET_CADENCE:
-			ttsOutput.say(String.format("Current cadence is %d cycles per minute.", currentCadence));
-			ttsOutput.say("Speed up.");
+			ttsOutput.say(String.format(context.getString(R.string.voice_current_cadence, currentCadence)));
+			ttsOutput.say(context.getString(R.string.voice_speed_up));
 			break;
 		}
 		lastFeedbackState = currentState;

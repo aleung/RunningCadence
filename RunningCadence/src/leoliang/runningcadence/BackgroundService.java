@@ -81,7 +81,7 @@ public class BackgroundService extends Service {
 		Log.v(LOG_TAG, "onCreate");
 		int targetCadence = ((Application) getApplication()).getConfiguration().getTargetCadence();
 		ttsOutput = new TextToSpeechOutput(this);
-		voiceFeedback = new VoiceFeedback(ttsOutput);
+		voiceFeedback = new VoiceFeedback(ttsOutput, this);
 		voiceFeedback.setTargetCadence(targetCadence);
 		footFallDetector = new FootFallDetector(this);
 	}

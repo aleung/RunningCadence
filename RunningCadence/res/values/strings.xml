@@ -5,6 +5,19 @@
     <string name="current">current</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
-    <string name="service_running">Measuring your steps</string>
+    <string name="service_running">Measuring your running steps</string>
+    <string name="usage_hint">Bind the device at your arm and run</string>
     <string name="target_cadence">target cadence</string>
+    <string name="voice_not_running">Seems you\'re not running now. Have you finished your workout?</string>
+    <string name="voice_on_target_cadence">Good job! You\'re running on target cadence. Keep going.</string>
+    <string name="voice_current_cadence">Current cadence is %d steps per minute.</string>
+    <string name="voice_slow_down">Slow down.</string>
+    <string name="voice_speed_up">Speed up.</string>
+    <string name="preference_language">Language</string>
+    <string name="preference_language_description">Used on user interface and voice feedback. Might not take effect until app restart.</string>
+    <string name="preference_tts_test">Voice feedback test</string>
+    <string name="preference_tts_test_description">Listen to an example of voice feedback</string>
+    <string name="preference_tts_setting">Text-to-speech Settings</string>
+    <string name="preference_tts_setting_description">Check system TTS setting if voice feedback doesn\'t work</string>
+    <string name="dialog_tts_not_work">Text-to-speech does not work properly. Please check system TTS setting and if TTS engine and language data has been installed.</string>
 </resources>

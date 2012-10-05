@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<PreferenceScreen 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:title="Preference" > 
+ 
+  <ListPreference 
+      android:key="pref_language" 
+      android:entries="@array/pref_language_entries"
+      android:entryValues="@array/pref_language_values"
+      android:title="@string/preference_language" 
+      android:summary="@string/preference_language_description" 
+  /> 
+
+  <Preference 
+      android:key="pref_tts_test" 
+      android:title="@string/preference_tts_test" 
+      android:summary="@string/preference_tts_test_description" 
+  /> 
+
+  <Preference 
+      android:key="pref_tts_setting" 
+      android:title="@string/preference_tts_setting" 
+      android:summary="@string/preference_tts_setting_description" >
+    <intent android:action="com.android.settings.TTS_SETTINGS" />
+  </Preference> 
+  
+</PreferenceScreen>

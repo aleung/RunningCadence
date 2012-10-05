@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">跑步步頻 RunningCadence</string>
+    <string name="steps_per_minute">步/每分鍾</string>
+    <string name="current">當前</string>
+    <string name="start">開始</string>
+    <string name="stop">結束</string>
+    <string name="service_running">正在測量中</string>
+    <string name="usage_hint">請將手機綁在手臂上, 開始跑步</string>
+    <string name="target_cadence">目標步頻</string>
+    <string name="voice_not_running">你好像沒有在跑哦? 已經完成本次訓練了嗎?</string>
+    <string name="voice_on_target_cadence">很棒! 你目前的步頻在目標範圍. 繼續保持!</string>
+    <string name="voice_current_cadence">當前步頻爲每分鍾 %d 步.</string>
+    <string name="voice_slow_down">降低一點步頻.</string>
+    <string name="voice_speed_up">加快一點步頻.</string>
+    <string name="preference_language">語言</string>
+    <string name="preference_language_description">用戶界面以及語音提示所使用的語言, 設定可能要在下次啓動時才生效.</string>
+    <string name="preference_tts_test">測試語音提示效果</string>
+    <string name="preference_tts_test_description">播放一段演示的語音提示</string>
+    <string name="preference_tts_setting">文字轉語音設定</string>
+    <string name="preference_tts_setting_description">如果語音提示不能正常播放，請檢查系統的文字轉語音設定</string>
+    <string name="dialog_tts_not_work">無法啓用語音合成. 請檢查文字轉語音設定, 語音合成引擎及語音資料是否已安裝.</string>
+</resources>

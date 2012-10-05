@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_language_entries">        
+        <item>English</item>
+        <item>Chinese 中文</item>
+    </string-array>
+    <string-array name="pref_language_values">        
+        <item>en</item>
+        <item>zh</item>
+    </string-array>
+</resources>

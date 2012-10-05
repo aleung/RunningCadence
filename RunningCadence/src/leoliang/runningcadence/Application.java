@@ -1,10 +1,15 @@
 package leoliang.runningcadence;
 
+import java.util.Locale;
+
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class Application extends android.app.Application {
 
-	public class Configuration {
+	public class AppConfiguration {
 		private static final String CONFIG_TARGET_CADENCE = "targetCadence";
 		private static final int DEFAULT_TARGET_CADENCE = 180;
 
@@ -17,15 +22,57 @@ public class Application extends android.app.Application {
 		}
 	}
 
-	private static final String PREFERENCES_FILE_NAME = "default";
-	private final Configuration configuration = new Configuration();
+	private static final String LOG_TAG = "Application";
+	private final AppConfiguration configuration = new AppConfiguration();
 
 	private SharedPreferences getPreferences() {
-		return getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+		return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 	}
 
-	public Configuration getConfiguration() {
+	public AppConfiguration getConfiguration() {
 		return configuration;
+	}
+
+	/**
+	 * Some event like screen rotation will trigger this method, with system default locale in configuration. Should
+	 * override the locale to which user set in application preference.
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		Locale locale = getLocaleFromPref();
+		overwriteConfigurationLocale(newConfig, locale);
+		super.onConfigurationChanged(newConfig);
+	}
+
+	/**
+	 * On application startup, override system default locale to which user set in application preference.
+	 */
+	@Override
+	public void onCreate() {
+		setLocale();
+	}
+
+	private Locale getLocaleFromPref() {
+		Locale locale = Locale.getDefault();
+		String language = getPreferences().getString("pref_language", "");
+		if (!language.equals("")) {
+			locale = new Locale(language);
+			Locale.setDefault(locale);
+		}
+		return locale;
+	}
+
+	private void overwriteConfigurationLocale(Configuration config, Locale locale) {
+		config.locale = locale;
+		getBaseContext().getResources()
+				.updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+	}
+
+	public void setLocale() {
+		Locale locale = getLocaleFromPref();
+		Log.d(LOG_TAG, "Set locale to " + locale);
+		Configuration config = getBaseContext().getResources().getConfiguration();
+		overwriteConfigurationLocale(config, locale);
 	}
 
 }
