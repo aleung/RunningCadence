@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="leoliang.runningcadence"
     android:versionCode="2"
-    android:versionName="12Q4.1-dev" >
+    android:versionName="12Q4.1" >
 
     <uses-sdk android:minSdkVersion="7" />
 
