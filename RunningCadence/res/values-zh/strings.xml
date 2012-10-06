@@ -14,7 +14,7 @@
     <string name="voice_slow_down">降低一點步頻.</string>
     <string name="voice_speed_up">加快一點步頻.</string>
     <string name="preference_language">語言</string>
-    <string name="preference_language_description">用戶界面以及語音提示所使用的語言, 設定可能要在下次啓動時才生效.</string>
+    <string name="preference_language_description">用戶界面以及語音提示所使用的語言</string>
     <string name="preference_tts_test">測試語音提示效果</string>
     <string name="preference_tts_test_description">播放一段演示的語音提示</string>
     <string name="preference_tts_setting">文字轉語音設定</string>

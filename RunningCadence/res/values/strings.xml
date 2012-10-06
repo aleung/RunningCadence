@@ -14,7 +14,7 @@
     <string name="voice_slow_down">Slow down.</string>
     <string name="voice_speed_up">Speed up.</string>
     <string name="preference_language">Language</string>
-    <string name="preference_language_description">Used on user interface and voice feedback. Might not take effect until app restart.</string>
+    <string name="preference_language_description">Used on user interface and voice feedback</string>
     <string name="preference_tts_test">Voice feedback test</string>
     <string name="preference_tts_test_description">Listen to an example of voice feedback</string>
     <string name="preference_tts_setting">Text-to-speech Settings</string>

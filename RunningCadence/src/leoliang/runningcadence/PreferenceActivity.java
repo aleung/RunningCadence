@@ -9,26 +9,22 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class PreferenceActivity extends android.preference.PreferenceActivity {
+public class PreferenceActivity extends android.preference.PreferenceActivity implements
+		OnSharedPreferenceChangeListener {
 
 	private static final String LOG_TAG = "PreferenceActivity";
 	private final int DIALOG_TTS_NOT_WORK = 1;
 	private TextToSpeechOutput ttsOutput;
-	private SharedPreferences sharedPreferences;
 
-	private final OnSharedPreferenceChangeListener listener = new OnSharedPreferenceChangeListener() {
-		@Override
-		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-			if (key.equals("pref_language")) {
-				sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
-				((Application) getApplication()).setLocale();
-				restartActivity();
-			}
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (key.equals("pref_language")) {
+			((Application) getApplication()).setLocale();
+			restartActivity();
 		}
-	};
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +44,13 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
 			}
 		});
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+		getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 		ttsOutput.shutdown();
 	}
 
