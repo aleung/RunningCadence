@@ -21,36 +21,39 @@ Change log
 ----------
 
 12Q4.1  (2)  - 2012.10.6
+
 + Multiple language support, switchable in application preference. English and Chinese at present.
 + Add voice feedback test. Detect if TTS engine and language data are available.
 
 11Q4.3  (1)  - 2011.12.22
+
 + Improve voice feedback, less feedback when status jumping between on target and out of target cadence.
 + Fix the issue of application being killed after running in background for 30 minutes;
 
 11Q4.2  (1)  - 2011.11.30
+
 + Set target cadence;
 + Cadence detection runs as background service, should not be easily killed by system;
 
 11Q4.1  (1)  - 2011.10.31  First version.
+
 + Count running cadence;
 + Report current cadence by TTS;
 
 Installation
 ------------
 
-* Search "RunningCadence" in Google Play (release version)
-* "Download@GoogleCode":http://code.google.com/p/running-cadence/downloads/list (development version)
+Install from Google Play (release version): [link](https://play.google.com/store/apps/details?id=leoliang.runningcadence)
 
 Feedback
 --------
 
-Bug report or feature request, please submit to "issues list":http://code.google.com/p/running-cadence/issues/list . Your feedback can be either in English or in Chinese.
+Bug report or feature request, please submit to github project [issues list](https://github.com/aleung/RunningCadence/issues). Your feedback can be either in English or in Chinese.
 
 Build
 -----
 
-Requires library "android-wheel":http://code.google.com/p/android-wheel/
+Requires library [android-wheel](http://code.google.com/p/android-wheel/)
 
 Contribute
 ----------
@@ -59,9 +62,9 @@ I'm not good at graph design, if you could help to improve the design of applica
 
 Also I'd like to have it translated into other languages.
 
-Please email to "leoliang@gmail.com":mailto:leoliang@gmail.com if you would like to contribute.
+Please email to [leoliang@gmail.com](mailto:leoliang@gmail.com) if you would like to contribute.
 
 License
 -------
 
-"GNU General Public License, version 3":http://www.gnu.org/licenses/gpl.html
+[Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
