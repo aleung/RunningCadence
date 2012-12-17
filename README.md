@@ -58,11 +58,9 @@ Requires library [android-wheel](http://code.google.com/p/android-wheel/)
 Contribute
 ----------
 
-I'm not good at graph design, if you could help to improve the design of application UI or the user experience, I'll be very appreciated.
+I'm not good at graph design, if you could help to improve the design of application UI or the user experience, I'll be very appreciated. Please email to [leoliang@gmail.com](mailto:leoliang@gmail.com) if you would like to contribute.
 
-Also I'd like to have it translated into other languages.
-
-Please email to [leoliang@gmail.com](mailto:leoliang@gmail.com) if you would like to contribute.
+Also I'd like to have it translated into more languages. Help with translations on [GetLocalization.com](http://www.getlocalization.com/RunningCadence/).
 
 License
 -------
