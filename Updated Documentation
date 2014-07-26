@@ -1,0 +1,80 @@
+DOCUMENTATION UPDATE – JULY 2014: RunningCadence
+
+Functionality: 
+
+The app has an adjustable counter where the user selects the desired number of steps to be targeted.  Upon starting the app, voice prompts guide the user throughout the activity with current cadence and instructions on whether to speed up or slow down.  
+
+The app is available in English and Chinese translations.
+
+*Updates in July 2014:
+
+A Hindi translation was recently added to increase user base.  
+
+A more eye catching logo was added for the app store.
+
+GPS tracking capabilities were added to the app to track distance during app use.
+
+Code structure:
+
+Nine different classes are used to build the app and all are housed within the package leoliang.runningcadence.
+
+Separate classes for the VoiceFeedback (creates voice guidance for the user), TextToSpeechOutput (creates audio from text), SettingActivity (controls buttons to set cadence and start the program for the user), RunningCadenceActivity (creates visual display of current cadence while program is running), Application (provides various system and app configurations), BackgroundService (provides methods to run the app such as start, run and showNotification), BeepPlayer (produces beep sound used in app), FootFallDetector (calculates number of foot strikes for cadence reading), & Preference Activity (sets user preferences such as text to speech language).
+
+End of line braces are used to limit whitespace and braces even if not explicitly needed (aka, One True Brace Style).  All variables are private, new variables should follow suit.
+
+Code Sample to demonstrate style and structure of program:
+
+public class PreferenceActivity extends android.preference.PreferenceActivity implements OnSharedPreferenceChangeListener {
+
+	private static final String LOG_TAG = "PreferenceActivity";
+	private final int DIALOG_TTS_NOT_WORK = 1;
+	private TextToSpeechOutput ttsOutput;
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (key.equals("pref_language")) {
+			((Application) getApplication()).setLocale();
+			restartActivity();
+		}
+	}
+
+Installation:
+
+The app is available for android devices through the Google Play store. There is no cost to download the app; the user will access their Google Play account and search for RunningCadence by Aelung and choose Install.
+
+To install the source files in order to make changes or enhancements, the Android Development Tools (ADT) plugin must be downloaded to access the code and make enhancements via Eclipse.  A bundle with the IDE, Android SDK and Android Developer Toolkit is available for download at developer.android.com.  The individual components can also be downloaded in order to upgrade an existing IDE.
+
+Android Studio is also available for app development through developer.android.com.  This IDE is specifically made for android development and installation includes the necessary Android SDK.
+
+This particular app will need additional libraries installed in the IDE.  The library needed is the Kankan/wheel library and can be found at https://code.google.com/p/android-wheel/downloads/list  .  The zip files should be extracted and saved.  Rename the .apk file to  wheel-demo.zip and extract to find the classes.dex file.  In order to convert the file to be able to be uploaded to the IDE, dex2jar must be used.  Copy the classes.dex file to the dex2jar folder.  Open a command window and change the directory to the location of the dex2jar folder and enter the following command: d2j-dex2jar.bat classes.dex.   A new file in the dex2jar folder will be created called classes-dex2jar.jar.  To import to Android Studio, File-Project Structures-Modules-Dependencies-Add.   Browse for the newly created file to load.  Within Eclipse, access Properties-Java Build Path- Libraries and browse for the file.
+
+Source Files:
+
+RunningCadence is written in the Java programming language.  The source code files (found on GitHub) are easily downloaded as a zip file.  The program can also be cloned to a programmer’s local machine if enhancements are desired.
+
+Newly created program – User Guide:
+
+A new app was created using App Inventor that tracks cadence of the user as above but also have additional functionality.  
+
+The user chooses the day of the week in order to store data at the end of the session and then chooses a target cadence.  
+
+After clicking ‘Start’ the timer function will begin counting and cadence information will be provided at one minute intervals.  At each minute, voice and visual guidance will be provided to the user to: Slow Down, Speed Up or Way to Go! (pace equal to target).  
+
+When the user is finished, the ‘Stop’ button is clicked which will enable a ‘Distance’ button.  
+
+The user clicks on Distance to see the total mileage covered throughout the session. (The user must have location services enabled on their device). 
+
+Upon clicking ‘Save’, the day’s data will be stored in memory.  In total, a week’s worth of data will be stored in the app.  
+
+To view all of the data, the user clicks on ‘Show week data?’ and a list of each day and the stored cadence will be shown.  If the user was below target, the number will be displayed in red.  If the user beat their target for that day, the number will be displayed in green.  
+
+To erase all saved stats, ‘Clear week data?’ is clicked by the user. 
+
+Also upon clicking Save, a ‘Share’ button will appear.  Clicking this button will allow the user to choose what means of communication they would like to share their achievement with (email, text, twitter, Facebook, etc).  A prepopulated message will be filled in (for all except Facebook) that tells what the cadence level of the day was.  
+
+In order to begin a completely new session, ‘Reset’ is clicked and all data is zeroed out.
+
+The source files for this app can be found on GitHub.
+
+
+
